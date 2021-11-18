@@ -1,0 +1,21 @@
+.bg-fix {
+    background-color: #e0e0e6;
+}
+
+.text-gray {
+    color: #5c5c6f;
+}
+
+.text-gray-hard {
+    color: #1e1e28;
+}
+
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    text-align: center;
+}

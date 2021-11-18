@@ -1,0 +1,21 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block head %}
+    <title>{{ blog.title }}</title>
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="flex w-full justify-start my-3">
+        <a class="bg-blue-500 px-4 py-2 shadow rounded mx-2 text-white" scope="col" href="{% url 'page:index' %}">Portfolio</a>
+        <a class="bg-blue-500 px-4 py-2 shadow rounded mx-2 text-white" scope="col"
+           href="{% url 'page:blog' %}">Blog</a>
+        </div>
+    <div>
+        {{ blog.description | safe }}
+    </div>
+    </div>
+
+{% endblock %}

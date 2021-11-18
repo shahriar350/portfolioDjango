@@ -1,0 +1,293 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+
+
+    <!-- v-scope value can be omitted -->
+    <div class="bg-fix" v-scope>
+        <div class="md:overflow-hidden overflow-y-scroll flex md:flex-row flex-col gap-4">
+            <div class="xl:ml-24 lg:ml-8 ml-0 h-screen lg:w-3/12 md:w-5/12 w-full bg-white overflow-hidden relative">
+                <div class="py-5 px-2 flex flex-col items-center">
+                    {% if profile.image %}
+                        <img class="rounded-full h-40 w-40" src="{{ profile.image.url }}"
+                             alt="Saifullah Shahen Profile Image">
+                    {% endif %}
+
+                    <h3 class="font-semibold text-xl pt-5">{{ profile.name | capfirst }}</h3>
+                    <p class="font-semibold text-sm text-gray">{{ profile.email }}</p>
+                    <p class="font-semibold text-sm text-gray">{{ profile.phone }}</p>
+                    <p style="color: cadetblue" class="px-4 text-sm mt-2 text-justify">{{ profile.profession }}</p>
+                </div>
+                <div style="background: #f4f4f6" class="">
+                    <p class="px-5 text-gray py-3">{{ profile.address }}</p>
+
+                </div>
+                <div class="flex justify-end gap-4 mt-3 px-5">
+
+                    <a class="bg-blue-400 text-white px-4 py-2 shadow rounded" href="{% url 'page:blog' %}">Blogs</a>
+                    {% if profile.cv %}
+                        <a class="bg-blue-400 text-white px-4 py-2 shadow rounded" href="{{ profile.cv.url }}">CV</a>
+                    {% endif %}
+
+                </div>
+                <div class="mt-3 px-5">
+                    <p class="pb-2 border-b flex gap-2 flex-wrap">Good at</p>
+                    {% for key in keys %}
+                        <p class="px-3 py-2 inline-block rounded shadow bg-purple-300 my-2">{{ key }}</p>
+                    {% endfor %}
+                </div>
+                <div class="absolute bottom-0 w-full">
+                    <div class="py-5 px-2 flex justify-center flex-wrap">
+                        {% for socialmedia in socialmedias %}
+                            <a href="{{ socialmedia.link }}" class="text-purple-600 font-xl px-4"
+                               title="{{ socialmedia.name }}">
+                                {{ socialmedia.icon | safe }}
+                            </a>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="md:h-screen w-full overflow-x-hidden md:overflow-y-scroll overflow-hidden">
+                <div class="bg-white p-4 shadow rounded mb-5">
+                    <p class="py-3 text-center text-xl border-b">Profile</p>
+                    <p>{{ profile.profile | safe }}</p>
+                </div>
+                {#        educations #}
+                <div class="bg-white p-4 shadow rounded">
+                    <p class="py-3 text-center text-xl border-b">Education</p>
+                    <div class="">
+                        <div class="md:container container-fluid mx-auto w-full h-full">
+                            <div class="relative wrap overflow-hidden md:p-10 p-0 h-full">
+                                <div class="border-2-2 md:block hidden absolute border-opacity-20 border-gray-700 h-full border md:left-2/4 left-0"
+                                ></div>
+                                {% for education in educations %}
+                                    {% if forloop.counter|divisibleby:2 %}
+                                        <div class="flex justify-between md:flex-row flex-row-reverse  items-center w-full right-timeline">
+                                            <div class="md:block hidden order-1 w-5/12"></div>
+                                            <div class="md:block hidden z-20 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                                                <h1 class="mx-auto font-semibold text-lg text-white">
+                                                    <p class="font-bold text-center">{{ forloop.counter }}</p>
+                                                </h1>
+                                            </div>
+                                            <div class="md:my-0 my-2 order-1 bg-gray-200 rounded-lg md:shadow-xl shadow md:w-5/12 w-full px-6 py-4">
+                                                <h4 class="text-justify  font-bold text-gray-700 text-base">{{ education.type | upper }}</h4>
+                                                <h3 class="text-justify  font-semibold text-gray-900 text-base">{{ education.institute | upper }}</h3>
+                                                <p class=" font-semibold text-gray-800 text-base">{{ education.major }}</p>
+                                                <p class=" font-semibold text-gray-800 text-base">
+                                                    Result: {{ education.result }}</p>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <!-- left timeline -->
+                                        <div class="flex justify-between flex-row-reverse items-center w-full left-timeline">
+                                            <div class="md:block hidden order-1 w-5/12"></div>
+                                            <div class="md:block hidden flex justify-center items-center z-20 flex items-center order-1 bg-gray-400 shadow-xl w-8 h-8 rounded-full">
+                                                <h1 class="mx-auto text-white font-semibold text-lg self-center">
+                                                    <p class="font-bold text-center">{{ forloop.counter }}</p>
+                                                </h1>
+                                            </div>
+                                            <div class="md:my-0 my-2 order-1 bg-gray-200 rounded-lg md:shadow-xl shadow md:w-5/12 w-full px-6 py-4">
+                                                <h4 class="text-justify font-bold text-gray-700 text-base">{{ education.type | upper }}</h4>
+                                                <h3 class="text-justify font-semibold text-gray-900 text-base">{{ education.institute | upper }}</h3>
+                                                <p class=" font-semibold text-gray-800 text-base">{{ education.major }}</p>
+                                                <p class="font-semibold text-gray-800 text-base">
+                                                    Result: {{ education.result }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {#            trainings #}
+                {% if trainings %}
+                    <div class="bg-white px-4 my-5 rounded shadow">
+                        <p class="py-3 text-center text-xl border-b">Trainings</p>
+                        <ul class="container list-decimal py-5">
+                            {% for training in trainings %}
+                                {% if training.image %}
+                                    <img src="{{ training.image.url }}" alt="{{ training.name }}">
+                                {% endif %}
+
+                                <li class="py-2">
+                                    <p class="font-bold">{{ training.name | upper }}</p>
+                                    <p>{{ training.year }}</p>
+                                    <p class="text-gray-600 italic">{{ training.organization }}</p>
+                                    <p class="text-gray-600 italic font-semibold">{{ training.topic }}</p>
+                                    <p></p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {#            research #}
+                {% if researches %}
+                    <div class="bg-white px-4 my-5 rounded shadow">
+                        <p class="py-3 text-center text-xl border-b">Researches</p>
+                        <ul class="container list-decimal py-5">
+                            {% for research in researches %}
+                                <li class="py-2">
+                                    <a href="{{ research.link }}" class="text-purple-600">
+                                        <p>{{ research.name | upper }}</p>
+                                        <small>{{ research.year }}</small>
+                                    </a>
+
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                {#            research #}
+                {% if researches %}
+                    <div class="bg-white px-4 my-5 rounded shadow">
+                        <p class="py-3 text-center text-xl border-b">What i can do</p>
+                        <div class=" grid grid-cols-4 gap-4 py-4">
+                            {% for skill in skills %}
+                                <div>
+                                    <div class="flex gap-4">{{ skill.icon | safe }}<p
+                                            class="text-lg">{{ skill.name | upper }}</p></div>
+
+                                    <p class="text-gray">{{ skill.description }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {#            projects #}
+                {% if projects %}
+                    <div class="bg-white px-4 my-5 rounded shadow">
+                        <p class="py-3 text-center text-xl border-b">Projects</p>
+                        <ul class="container list-decimal py-5">
+                            {% for project in projects %}
+                                {% if project.image %}
+                                    <img src="{{ project.image.url }}" alt="{{ project.name }}">
+                                {% endif %}
+
+                                <li class="py-2">
+                                    <a href="{{ project.link }}" class="text-purple-600">
+                                        <p>{{ project.name | upper }}</p>
+                                    </a>
+                                    <p class="text-gray-600 italic">{{ project.technology }}</p>
+                                    <button @click="open_modal_desc('{{ project.description | safe }}')">See description
+                                    </button>
+                                    <p></p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                <div class="bg-white p-4 shadow rounded">
+                    <p class="py-3 text-center text-xl border-b">Learning map</p>
+                    <div class="">
+                        <div class="md:container container-fluid mx-auto w-full h-full">
+                            <div class="relative wrap overflow-hidden md:p-10 p-0 h-full">
+                                <div class="border-2-2 md:block hidden absolute border-opacity-20 border-gray-700 h-full border md:left-2/4 left-0"
+                                ></div>
+                                {% for map in maps %}
+                                    {% if forloop.counter|divisibleby:2 %}
+                                        <div class="flex justify-between md:flex-row flex-row-reverse  items-center w-full right-timeline">
+                                            <div class="md:block hidden order-1 w-5/12"></div>
+                                            <div class="md:block hidden z-20 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                                                <h1 class="mx-auto font-semibold text-lg text-white">
+                                                    <p class="font-bold text-center">{{ forloop.counter }}</p>
+                                                </h1>
+                                            </div>
+                                            <div class="md:my-0 my-2 order-1 bg-gray-200 rounded-lg md:shadow-xl shadow md:w-5/12 w-full px-6 py-4">
+                                                <h4 class="text-justify  font-bold text-gray-700 text-base">{{ map.date }}</h4>
+                                                <h4 class="text-justify  font-bold text-base">{{ map.technology | upper }}</h4>
+                                                <h3 class="text-justify  font-semibold text-gray-900 text-base">{{ map.description | upper }}</h3>
+
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <!-- left timeline -->
+                                        <div class="flex justify-between flex-row-reverse items-center w-full left-timeline">
+                                            <div class="md:block hidden order-1 w-5/12"></div>
+                                            <div class="md:block hidden flex justify-center items-center z-20 flex items-center order-1 bg-gray-400 shadow-xl w-8 h-8 rounded-full">
+                                                <h1 class="mx-auto text-white font-semibold text-lg self-center">
+                                                    <p class="font-bold text-center">{{ forloop.counter }}</p>
+                                                </h1>
+                                            </div>
+                                            <div class="md:my-0 my-2 order-1 bg-gray-200 rounded-lg md:shadow-xl shadow md:w-5/12 w-full px-6 py-4">
+                                                <h4 class="text-justify  font-bold text-gray-700 text-base">{{ map.date }}</h4>
+                                                <h4 class="text-justify  font-bold text-base">{{ map.technology | upper }}</h4>
+                                                <h3 class="text-justify  font-semibold text-gray-900 text-base">{{ map.description | upper }}</h3>
+
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div v-if="description_modal"
+             class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+            <!-- modal -->
+            <div class="bg-white max-h-screen rounded shadow-lg w-10/12 md:w-2/3  overflow-x-hidden overflow-y-scroll">
+                <div class="px-5 py-4">
+                    <p v-html="description"></p>
+                </div>
+                <div class="flex justify-end items-center w-100 border-t p-3">
+                    <button @click="close__modal_desc"
+                            class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal">Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+    <script type="module">
+        import {createApp} from '{% static 'js/petite-vue.es.js' %}'
+
+        createApp({
+            $delimiters: ['[[', ']]'],
+
+            // exposed to all expressions
+            count: 0,
+            description: '',
+            description_modal: false,
+            // getters
+            get plusOne() {
+                return this.count + 1
+            },
+            // methods
+            open_modal_desc(description) {
+                console.log(description)
+                this.description_modal = true
+                this.description = description
+            },
+            close__modal_desc() {
+                this.description_modal = false
+                this.description = ''
+            },
+            increment() {
+                this.count++
+            }
+        }).mount()
+    </script>
+    <script>
+        window.onload = function () {
+            setTimeout(function () {
+                document.querySelector(".preloader").style.display = "none";
+            }, 500)
+        }
+
+    </script>
+{% endblock %}
